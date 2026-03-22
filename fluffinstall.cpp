@@ -491,8 +491,6 @@ int main()
 
     std::system("cp -r /etc/skel /mnt/etc/");
     std::system("cp /etc/nanorc /mnt/etc/");
-    std::system("mkdir -p /mnt/etc/pacman.d/hooks");
-    std::system("cp /etc/pacman.d/cleanup-cache.hook /mnt/etc/pacman.d/hooks"); //cache cleanup hook
 
     //Generate Fstab file
     std::cout << "Generating Fstab... \n";
