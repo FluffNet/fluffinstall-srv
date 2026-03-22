@@ -1,4 +1,4 @@
-# fluffinstall
+# fluffinstall-srv
 
 This version of fluffinstall is the installer for Fluff Linux Server.
 
