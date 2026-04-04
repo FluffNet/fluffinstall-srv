@@ -507,10 +507,10 @@ int main()
     std::string archChrootCmd =
     "arch-chroot /mnt /bin/bash -c '"
     "echo \"" + HOSTNAME + "\" > /etc/hostname && "
+    "usermod -s /bin/zsh root && "
     "useradd -m -G uucp,wheel -s /bin/zsh " + USERNAME + " && "
     "echo \"" + USERNAME + ":" + PASSWORD + "\" | chpasswd && "
     "sed -i \"s/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/\" /etc/sudoers'";
-
 
     std::system(archChrootCmd.c_str());
 
