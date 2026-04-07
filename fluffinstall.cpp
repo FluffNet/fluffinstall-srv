@@ -392,6 +392,11 @@ int main()
         std::getline(std::cin, USR_DISK);
 
         TARGETDISK = trim_str(USR_DISK);
+
+        if (TARGETDISK == "") 
+        {
+            continue;
+        }
         
         if (!std::filesystem::exists("/dev/" + TARGETDISK))
         {
