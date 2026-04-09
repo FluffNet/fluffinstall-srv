@@ -553,6 +553,7 @@ int main()
     std::system("arch-chroot /mnt systemctl enable thermald.service");
     std::system("arch-chroot /mnt systemctl enable sshd");
     std::system("arch-chroot /mnt systemctl enable systemd-timesyncd");
+    std::system("arch-chroot /mnt systemctl enable cronie");
 
     std::system("pkill gpg-agent");
     std::system("umount /mnt/boot");
