@@ -514,7 +514,8 @@ int main()
     "echo \"" + HOSTNAME + "\" > /etc/hostname && "
     "usermod -s /bin/zsh root && "
     "useradd -m -G uucp,wheel -s /bin/zsh " + USERNAME + " && "
- 	"sed -i \"s/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/\" /etc/sudoers && "
+    "echo \"" + USERNAME + ":" + PASSWORD + "\" | chpasswd && "
+    "sed -i \"s/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/\" /etc/sudoers && "
     "echo \"Defaults env_keep += \\\"VISUAL EDITOR\\\"\" >> /etc/sudoers'";
 
     std::system(archChrootCmd.c_str());
