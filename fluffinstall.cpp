@@ -8,12 +8,12 @@
 //  - Fixed cin buffer getting stuck.
 //  - Improved disk selection functionality.
 //  - Proper string trimming for disks
-//  
+//
 //-----------------------------------------------------------------------------
-//                  How does this program function? 
+//                  How does this program function?
 //
 //  DITTO
-//  
+//
 //
 //-----------------------------------------------------------------------------
 //                  TODO/"Improvment" list
@@ -28,6 +28,7 @@
 #include <string>
 #include <cctype>
 #include <algorithm>
+#include <cstdio>
 
 const std::string HOSTNAME_REQUIREMENTS = R"(Hostname Requirements:
 Allowed characters: letters (a-z and A-Z), digits (0-9), dash (-), and dot (.).
@@ -61,24 +62,24 @@ std::string y_N_input() {
         while (!input_correct) {
             std::cout << "Continue? [y/N]: ";
             std::getline(std::cin, USR_INPUT);
-            
-            if (USR_INPUT.length() == 0) 
+
+            if (USR_INPUT.length() == 0)
             {
                 input_correct = true;
                 USR_INPUT = "n";
             }
-        
+
             if (USR_INPUT != "y" && USR_INPUT != "Y" && USR_INPUT != "n" && USR_INPUT != "N")
             {
                 input_correct = false;
                 continue;
             }
-        
-            if (USR_INPUT == "y" || USR_INPUT == "Y") 
+
+            if (USR_INPUT == "y" || USR_INPUT == "Y")
             {
                 USR_INPUT = "y";
                 input_correct = true;
-            } 
+            }
             else if (USR_INPUT == "n" || USR_INPUT == "N")
             {
                 USR_INPUT = "n";
@@ -87,7 +88,7 @@ std::string y_N_input() {
 
         }
 
-    return USR_INPUT;
+        return USR_INPUT;
 }
 
 std::string trim_str(const std::string& input)
@@ -100,10 +101,10 @@ std::string trim_str(const std::string& input)
 
 void HOSTNAME_CHECK()
 {
-  confirmation = ' ';
-  
-	bool HOSTNAMEVALID = false;
-    while (!HOSTNAMEVALID) 
+    confirmation = ' ';
+
+    bool HOSTNAMEVALID = false;
+    while (!HOSTNAMEVALID)
     {
         std::cout << "Please enter the hostname/system name you'd like to have\n(for example: server-pc , server1 , flufflinux.srv) : ";
         std::getline(std::cin, HOSTNAME);
@@ -125,33 +126,33 @@ void HOSTNAME_CHECK()
             std::cout << "\033[31m" << "The hostname cannot be blank, please enter a valid hostname" << "\033[0m\n\n";
             continue;
         }
-        
+
         //check for spaces
         bool hasSpace = false;
         bool hasSpecialCharacterHOST = false;
         for (char c : HOSTNAME)
         {
-          if(!std::isalnum(static_cast<unsigned char>(c)) && c != '-' && c != '.')
-          {
-            hasSpecialCharacterHOST = true;
-            break;
-          }
-		  if (std::isspace(static_cast<unsigned char>(c))) 
-          {
-            hasSpace = true;
-            break;
-          }
+            if(!std::isalnum(static_cast<unsigned char>(c)) && c != '-' && c != '.')
+            {
+                hasSpecialCharacterHOST = true;
+                break;
+            }
+            if (std::isspace(static_cast<unsigned char>(c)))
+            {
+                hasSpace = true;
+                break;
+            }
         }
 
         if(hasSpecialCharacterHOST)
-        {  
-          //std::system("clear");
-          std::cout << "\n\n\n";
-          std::cout << "\033[35m" << HOSTNAME_REQUIREMENTS << "\033[0m\n\n";
-          std::cout << "\033[31m" << "The hostname cannot have any special characters (Check requirements and try again)\n" << "\033[0m\n";
-          continue;
+        {
+            //std::system("clear");
+            std::cout << "\n\n\n";
+            std::cout << "\033[35m" << HOSTNAME_REQUIREMENTS << "\033[0m\n\n";
+            std::cout << "\033[31m" << "The hostname cannot have any special characters (Check requirements and try again)\n" << "\033[0m\n";
+            continue;
         }
-		if (hasSpace) 
+        if (hasSpace)
         {
             //std::system("clear");
             std::cout << "\n\n\n";
@@ -161,21 +162,21 @@ void HOSTNAME_CHECK()
         }
 
         //first and last char check
-        if (HOSTNAME[0] == '-' || HOSTNAME[0] == '.' || HOSTNAME[HOSTNAME.size() - 1] == '-' || HOSTNAME[HOSTNAME.size() - 1] == '.') 
+        if (HOSTNAME[0] == '-' || HOSTNAME[0] == '.' || HOSTNAME[HOSTNAME.size() - 1] == '-' || HOSTNAME[HOSTNAME.size() - 1] == '.')
         {
-          //std::system("clear");
-          std::cout << "\n\n\n";
-          std::cout << "\033[35m" << HOSTNAME_REQUIREMENTS << "\033[0m\n\n";
-          std::cout << "\033[31m" << "The hostname cannot start or end with '.' or '-'\n" << "\033[0m\n";
-          continue;
+            //std::system("clear");
+            std::cout << "\n\n\n";
+            std::cout << "\033[35m" << HOSTNAME_REQUIREMENTS << "\033[0m\n\n";
+            std::cout << "\033[31m" << "The hostname cannot start or end with '.' or '-'\n" << "\033[0m\n";
+            continue;
         }
 
         std::cout << "\nSet \"" << HOSTNAME << "\" as the hostname? [Y/n]: ";
         std::getline(std::cin, confirmation);
         if(confirmation == "n" || confirmation == "N")
         {
-          std::cout << std::endl; 
-          continue;
+            std::cout << std::endl;
+            continue;
         }
 
         HOSTNAMEVALID = true;
@@ -184,9 +185,9 @@ void HOSTNAME_CHECK()
 
 void USERNAME_CHECK()
 {
-	confirmation = ' ';
-  
-	bool USERNAMEVALID = false;
+    confirmation = ' ';
+
+    bool USERNAMEVALID = false;
     while (!USERNAMEVALID)
     {
         std::cout << "\nPlease enter the user name you'd like to have: ";
@@ -220,36 +221,36 @@ void USERNAME_CHECK()
             std::cout << "\033[31m" << "The user name cannot start or end with '_' or '-'\n" << "\033[0m\n";
             continue;
         }
-		
-		bool hasSpace = false;
+
+        bool hasSpace = false;
         bool hasNumbers = false;
         bool hasLetters = false;
         bool hasSpecialCharacterUSER = false;
         for (char c : USERNAME)
         {
-		  //check for spaces
-          if (std::isspace(static_cast<unsigned char>(c))) 
-          {
-            hasSpace = true;
-            break;
-          }
-          if(!std::isalnum(static_cast<unsigned char>(c)) && c != '-' && c != '_')
-          {
-            hasSpecialCharacterUSER = true;
-            break;
-          }
-          //checks for numbers
-          if(std::isdigit(static_cast<unsigned char>(c)))
-          {
-            hasNumbers = true;
-          }
-          //checks for letters
-          else if(std::isalpha(static_cast<unsigned char>(c)))
-          {
-            hasLetters = true;
-          }
+            //check for spaces
+            if (std::isspace(static_cast<unsigned char>(c)))
+            {
+                hasSpace = true;
+                break;
+            }
+            if(!std::isalnum(static_cast<unsigned char>(c)) && c != '-' && c != '_')
+            {
+                hasSpecialCharacterUSER = true;
+                break;
+            }
+            //checks for numbers
+            if(std::isdigit(static_cast<unsigned char>(c)))
+            {
+                hasNumbers = true;
+            }
+            //checks for letters
+            else if(std::isalpha(static_cast<unsigned char>(c)))
+            {
+                hasLetters = true;
+            }
         }
-		if (hasSpace) 
+        if (hasSpace)
         {
             //std::system("clear");
             std::cout << "\n\n\n";
@@ -258,14 +259,14 @@ void USERNAME_CHECK()
             continue;
         }
         if(hasSpecialCharacterUSER)
-        {  
-          //std::system("clear");
-          std::cout << "\n\n\n";
-          std::cout << "\033[35m" << USERNAME_REQUIREMENTS << "\033[0m\n\n";
-          std::cout << "\033[31m" << "The user name cannot have any special characters (Check requirements and try again)\n" << "\033[0m\n";
-          continue;
+        {
+            //std::system("clear");
+            std::cout << "\n\n\n";
+            std::cout << "\033[35m" << USERNAME_REQUIREMENTS << "\033[0m\n\n";
+            std::cout << "\033[31m" << "The user name cannot have any special characters (Check requirements and try again)\n" << "\033[0m\n";
+            continue;
         }
-		
+
         if(hasNumbers && !hasLetters)
         {
             //std::system("clear");
@@ -274,8 +275,8 @@ void USERNAME_CHECK()
             std::cout << "\033[31m" << "The user name cannot be numbers only\n" << "\033[0m\n";
             continue;
         }
-  
-        if (std::any_of(USERNAME.begin(), USERNAME.end(), [](unsigned char c){ return std::isupper(c); })) 
+
+        if (std::any_of(USERNAME.begin(), USERNAME.end(), [](unsigned char c){ return std::isupper(c); }))
         {
             //std::system("clear");
             std::cout << "\n\n\n";
@@ -283,7 +284,7 @@ void USERNAME_CHECK()
             std::cout << "\033[31m" << "The user name contains upper letters, only lowercase letters are allowed\n" << "\033[0m\n";
             continue;
         }
-        
+
         int isReserved = std::system(("arch-chroot /mnt id -u " + USERNAME + " > /dev/null 2>&1").c_str());
 
         if(WEXITSTATUS(isReserved) == 0)
@@ -294,13 +295,13 @@ void USERNAME_CHECK()
             std::cout << "\033[31m" << "This user name is reserved, please choose a different user name\n" << "\033[0m\n";
             continue;
         }
-        
+
         std::cout << "\nSet \"" << USERNAME << "\" as the username? [Y/n]: ";
         std::getline(std::cin, confirmation);
         if(confirmation == "n" || confirmation == "N")
         {
-          std::cout << std::endl; 
-          continue;
+            std::cout << std::endl;
+            continue;
         }
 
         USERNAMEVALID = true;
@@ -310,21 +311,21 @@ void USERNAME_CHECK()
 void PASSWORD_CHECK()
 {
     bool PASSWORDVALID = false;
-    std::string PASSWORD_RECHECK; 
-    
+    std::string PASSWORD_RECHECK;
+
     while(!PASSWORDVALID)
-	{
-		std::cout << "\nPlease enter a password: ";
+    {
+        std::cout << "\nPlease enter a password: ";
         std::getline(std::cin, PASSWORD);
-		
-		if(PASSWORD.empty())
-		{
-			//std::system("clear");
+
+        if(PASSWORD.empty())
+        {
+            //std::system("clear");
             std::cout << "\n\n\n";
-			std::cout << "\033[31m" << "The password cannot be blank. " << "\033[0m\n";
-			continue;
-		}
-	    std::cout << "\nRe-enter your password to confirm: ";
+            std::cout << "\033[31m" << "The password cannot be blank. " << "\033[0m\n";
+            continue;
+        }
+        std::cout << "\nRe-enter your password to confirm: ";
         std::getline(std::cin, PASSWORD_RECHECK);
         if (PASSWORD != PASSWORD_RECHECK)
         {
@@ -334,7 +335,7 @@ void PASSWORD_CHECK()
             continue;
         }
         PASSWORDVALID = true;
-	}
+    }
 }
 
 int main()
@@ -360,7 +361,7 @@ int main()
     {
         return 1;
     }
-    
+
     //Check if the system's firmware is UEFI or LEGACY
     if (std::filesystem::exists("/sys/firmware/efi") && std::filesystem::is_directory("/sys/firmware/efi"))
     {
@@ -375,9 +376,9 @@ int main()
     //tell's the user the detected firmware mode
 
     std::cout << "First, we need to select the target drive...\n\n\n";
-    
+
     std::cout << "On the left column below, drive names are listed such as \"sda\" or \"nvme0n1\" alongside with the model of the drive\n\n";
-    
+
     bool VALID_DISK = false;
 
     while (!VALID_DISK)
@@ -385,7 +386,7 @@ int main()
         std::system("lsblk -d --output NAME,MODEL,SIZE,TYPE --noheadings | grep 'disk$'");
         std::cout << "\n\n";
         std::cout << "Enter the name of the target drive you want to install Fluff Linux on: /dev/";
-        
+
 
         std::string USR_DISK = "";
 
@@ -393,11 +394,11 @@ int main()
 
         TARGETDISK = trim_str(USR_DISK);
 
-        if (TARGETDISK == "") 
+        if (TARGETDISK == "")
         {
             continue;
         }
-        
+
         if (!std::filesystem::exists("/dev/" + TARGETDISK))
         {
             std::cout << "\033[31m" << TARGETDISK << " is not a valid block device." << "\033[0m\n";
@@ -505,7 +506,7 @@ int main()
     std::cout << "\nConfiguring system... \n\n";
     //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //No more buffer to clear, thus no longer needed -Toast 2026-03-13
 
-	HOSTNAME_CHECK();
+    HOSTNAME_CHECK();
     USERNAME_CHECK();
     PASSWORD_CHECK();
 
@@ -514,11 +515,27 @@ int main()
     "echo \"" + HOSTNAME + "\" > /etc/hostname && "
     "usermod -s /bin/zsh root && "
     "useradd -m -G uucp,wheel -s /bin/zsh " + USERNAME + " && "
-    "echo \"" + USERNAME + ":" + PASSWORD + "\" | chpasswd && "
     "sed -i \"s/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/\" /etc/sudoers && "
     "echo \"Defaults env_keep += \\\"VISUAL EDITOR\\\"\" >> /etc/sudoers'";
 
     std::system(archChrootCmd.c_str());
+
+    FILE* chpasswdPipe = popen("arch-chroot /mnt chpasswd", "w");
+    if (!chpasswdPipe)
+    {
+        std::cout << "\033[31m" << "Failed to run chpasswd." << "\033[0m\n";
+        return 1;
+    }
+
+    std::string chpasswdInput = USERNAME + ":" + PASSWORD + "\n";
+    std::fwrite(chpasswdInput.c_str(), 1, chpasswdInput.size(), chpasswdPipe);
+
+    int chpasswdStatus = pclose(chpasswdPipe);
+    if (chpasswdStatus != 0)
+    {
+        std::cout << "\033[31m" << "Failed to set the user password." << "\033[0m\n";
+        return 1;
+    }
 
     std::cout << "\nConfiguring BootLoader (GRUB) ... \n";
     if (BOOT_MODE == "UEFI")
@@ -543,10 +560,6 @@ int main()
     std::system("ln -sf /usr/share/zoneinfo/UTC /mnt/etc/localtime"); //keep this until timezone selection is implemented
     std::system("arch-chroot /mnt fc-cache -fv");
 
-
-
-    //enable system services
-
     //enable system services
     std::system("arch-chroot /mnt systemctl enable NetworkManager");
     std::system("arch-chroot /mnt ln -sf /run/NetworkManager/resolv.conf /etc/resolv.conf");
@@ -559,7 +572,7 @@ int main()
     std::system("pkill gpg-agent");
     std::system("umount /mnt/boot");
     std::system("umount /mnt");
-    
+
     std::cout << "\n\n\n";
     std::cout << "\033[32mThe installation has finished!\033[0m\n";
     std::cout << "Fluff Linux Server is now bootable on the target drive.\n";
