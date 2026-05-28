@@ -338,7 +338,7 @@ fn generate_hostname() -> String {
         digits.push((b'0' + (byte % 10)) as char);
     }
 
-    format!("fluff-{}{}{}", first_letter, second_letter, digits)
+    format!("FL-{}{}{}", first_letter, second_letter, digits)
 }
 
 fn print_hostname_requirements() {
