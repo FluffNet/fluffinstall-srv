@@ -19,6 +19,7 @@ To build the installer:
    ```
 
 This will compile `fluffinstall-srv.rs` into an executable named **`fluffinstall-srv`**.
+
 Use inside the Fluff Linux Server live session.
 
 ---
