@@ -18,12 +18,12 @@ To build the installer:
    ./build.sh
    ```
 
-This will compile `fluffinstall.cpp` into an executable named **`fluffinstall`**.
+This will compile `fluffinstall-srv.rs` into an executable named **`fluffinstall-srv`**.
 Use inside the Fluff Linux Server live session.
 
 ---
 
 ## Notes
 
-- Ensure you have a C++ compiler installed (`g++`)
+- Ensure you have a rust compiler
 - Make sure you run the installer as root
