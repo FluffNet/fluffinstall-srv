@@ -743,7 +743,6 @@ fn main() {
     run_command("cp", &["/etc/pacman.conf","/mnt/etc/"]);
     run_command("cp", &["/etc/pacman.d/mirrorlist","/mnt/etc/pacman.d/mirrorlist"]);
     run_command("cp", &["/etc/locale.conf","/mnt/etc/"]);
-    run_command("cp",&["/usr/share/pixmaps/flufflinux-logo.png","/mnt/usr/share/pixmaps/"]);
     run_command("ln", &["-sf","/usr/share/zoneinfo/UTC","/mnt/etc/localtime"]); // temporary until timezone setup is added
 
     // Generate Fstab
