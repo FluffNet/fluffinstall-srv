@@ -634,6 +634,27 @@ fn force_unmount_target(target_disk: &str) {
     }
 }
 
+fn sync_and_unmount_target() {
+    let _ = Command::new("pkill").arg("gpg-agent").status();
+
+    run_command("sync", &[]);
+
+    for _ in 0..10 {
+        if Command::new("umount")
+            .args(["-R", "/mnt"])
+            .stderr(Stdio::null())
+            .status()
+            .map_or(false, |s| s.success())
+            {
+                return;
+            }
+
+            std::thread::sleep(std::time::Duration::from_secs(1));
+    }
+
+    println!("\nwarning: umount cleanup did not finish successfully.");
+}
+
 fn main() {
     if unsafe { geteuid() } != 0 {
         eprintln!(
@@ -815,6 +836,8 @@ fn main() {
     print_stage("Password Setup");
     password_setup(&username);
 
+    println!("\nFinalizing installation...");
+
     // Enable system services
     run_command("arch-chroot",&["/mnt","systemctl","enable","NetworkManager"]);
     run_command("arch-chroot",&["/mnt","ln","-sf","/run/NetworkManager/resolv.conf","/etc/resolv.conf"]);
@@ -824,11 +847,7 @@ fn main() {
     run_command("arch-chroot",&["/mnt","systemctl","enable","systemd-timesyncd"]);
     run_command("arch-chroot",&["/mnt","systemctl","enable","cronie"]);
 
-    let _ = Command::new("pkill").arg("gpg-agent").status();
-
-    run_command("sync",&[]);
-    run_command("umount",&["/mnt/boot"]);
-    run_command("umount",&["/mnt"]);
+    sync_and_unmount_target();
 
     println!("\n\n{}The installation has finished! :){}", BOLD_GREEN, RESET);
     println!("Fluff Linux Server is now bootable on the target drive.");
