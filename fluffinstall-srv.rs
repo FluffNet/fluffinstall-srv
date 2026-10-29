@@ -838,6 +838,13 @@ fn main() {
 
     println!("\nFinalizing installation...");
 
+    // The installer already configures the system. Prevent systemd's interactive
+    // Initial Setup from blocking the installed system's first boot.
+    run_command(
+        "arch-chroot",
+        &["/mnt", "systemctl", "mask", "systemd-firstboot.service"],
+    );
+
     // Enable system services
     run_command("arch-chroot",&["/mnt","systemctl","enable","NetworkManager"]);
     run_command("arch-chroot",&["/mnt","ln","-sf","/run/NetworkManager/resolv.conf","/etc/resolv.conf"]);
